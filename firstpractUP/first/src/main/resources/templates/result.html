@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Результат</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Quicksand:wght@300;400;500;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 50%, #ce93d8 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(156, 39, 176, 0.2);
+            border: 2px solid rgba(156, 39, 176, 0.1);
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(156, 39, 176, 0.05), transparent);
+            animation: sparkle 4s infinite;
+        }
+        
+        @keyframes sparkle {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            color: #7b1fa2;
+            font-size: 3em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(156, 39, 176, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .calculation {
+            color: #9c27b0;
+            margin-bottom: 25px;
+            font-size: 1.3em;
+            font-weight: 500;
+            background: rgba(156, 39, 176, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid rgba(156, 39, 176, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .result {
+            background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%);
+            padding: 25px;
+            border-radius: 20px;
+            margin: 25px 0;
+            font-size: 2em;
+            font-weight: 700;
+            color: #2e7d32;
+            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.3);
+            border: 3px solid rgba(76, 175, 80, 0.2);
+            position: relative;
+            z-index: 1;
+            animation: resultAppear 0.8s ease-out;
+        }
+        
+        @keyframes resultAppear {
+            0% { 
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            100% { 
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .button-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .button {
+            background: linear-gradient(135deg, #ab47bc 0%, #8e24aa 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            font-family: 'Quicksand', sans-serif;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(156, 39, 176, 0.3);
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+        
+        .button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .button:hover::before {
+            left: 100%;
+        }
+        
+        .button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(156, 39, 176, 0.4);
+            background: linear-gradient(135deg, #ba68c8 0%, #9c27b0 100%);
+        }
+        
+        .calculator-btn {
+            background: linear-gradient(135deg, #e1bee7 0%, #ce93d8 100%);
+            color: #7b1fa2;
+        }
+        
+        .calculator-btn:hover {
+            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+            color: #8e24aa;
+        }
+        
+        .princess {
+            position: absolute;
+            top: 10%;
+            left: 8%;
+            font-size: 2.2em;
+            animation: dance 3s infinite;
+            z-index: 5;
+        }
+        
+        .princess2 {
+            position: absolute;
+            top: 15%;
+            right: 8%;
+            font-size: 2em;
+            animation: dance 3s infinite 1.5s;
+            z-index: 5;
+        }
+        
+        @keyframes dance {
+            0%, 100% { transform: rotate(-5deg) translateY(0); }
+            25% { transform: rotate(5deg) translateY(-10px); }
+            50% { transform: rotate(-5deg) translateY(-5px); }
+            75% { transform: rotate(5deg) translateY(-15px); }
+        }
+        
+        .castle {
+            position: absolute;
+            bottom: 8%;
+            left: 5%;
+            font-size: 2.5em;
+            animation: castleGlow 4s infinite;
+            z-index: 5;
+        }
+        
+        @keyframes castleGlow {
+            0%, 100% { filter: brightness(1) drop-shadow(0 0 5px rgba(156, 39, 176, 0.5)); }
+            50% { filter: brightness(1.3) drop-shadow(0 0 15px rgba(156, 39, 176, 0.8)); }
+        }
+        
+        .firework {
+            position: absolute;
+            top: 18%;
+            left: 55%;
+            font-size: 1.8em;
+            animation: firework 2s infinite;
+            z-index: 5;
+        }
+        
+        .firework2 {
+            position: absolute;
+            top: 22%;
+            right: 20%;
+            font-size: 1.6em;
+            animation: firework 2s infinite 0.5s;
+            z-index: 5;
+        }
+        
+        @keyframes firework {
+            0% { transform: scale(0) rotate(0deg); opacity: 1; }
+            50% { transform: scale(1.5) rotate(180deg); opacity: 0.8; }
+            100% { transform: scale(0) rotate(360deg); opacity: 0; }
+        }
+        
+        .kitten {
+            position: absolute;
+            bottom: 18%;
+            right: 10%;
+            font-size: 1.8em;
+            animation: kittenPlay 2.5s infinite;
+            z-index: 5;
+        }
+        
+        @keyframes kittenPlay {
+            0%, 100% { transform: rotate(-10deg) scale(1); }
+            25% { transform: rotate(10deg) scale(1.1); }
+            50% { transform: rotate(-5deg) scale(0.9); }
+            75% { transform: rotate(5deg) scale(1.05); }
+        }
+        
+        .puppy {
+            position: absolute;
+            top: 60%;
+            left: 12%;
+            font-size: 1.6em;
+            animation: puppyBounce 2s infinite;
+            z-index: 5;
+        }
+        
+        @keyframes puppyBounce {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+        }
+        
+        .horse {
+            position: absolute;
+            top: 70%;
+            right: 8%;
+            font-size: 2em;
+            animation: horseGallop 3s infinite;
+            z-index: 5;
+        }
+        
+        @keyframes horseGallop {
+            0%, 100% { transform: translateX(0) scale(1); }
+            25% { transform: translateX(-5px) scale(1.1); }
+            50% { transform: translateX(5px) scale(0.9); }
+            75% { transform: translateX(-3px) scale(1.05); }
+        }
+        
+        .decorations {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2em;
+            color: #ce93d8;
+            animation: bounce 2s infinite;
+            z-index: 1;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        .hearts {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            font-size: 1.5em;
+            color: #f8bbd9;
+            animation: pulse 1.5s infinite;
+            z-index: 1;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        .sparkles {
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            font-size: 1.2em;
+            color: #f8bbd9;
+            animation: twinkle 1.5s infinite;
+            z-index: 1;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        .floating-hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 3;
+        }
+        
+        .floating-heart {
+            position: absolute;
+            font-size: 1em;
+            color: #f8bbd9;
+            animation: float 7s infinite linear;
+        }
+        
+        .floating-heart:nth-child(1) { top: 12%; left: 22%; animation-delay: 0s; }
+        .floating-heart:nth-child(2) { top: 28%; left: 78%; animation-delay: 1.5s; }
+        .floating-heart:nth-child(3) { top: 58%; left: 18%; animation-delay: 3s; }
+        .floating-heart:nth-child(4) { top: 75%; left: 75%; animation-delay: 4.5s; }
+        
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="princess">👑</div>
+    <div class="princess2">👸</div>
+    <div class="castle">🏰</div>
+    <div class="firework">🎆</div>
+    <div class="firework2">✨</div>
+    <div class="kitten">🐱</div>
+    <div class="puppy">🐶</div>
+    <div class="horse">🐴</div>
+    
+    <div class="floating-hearts">
+        <div class="floating-heart">💜</div>
+        <div class="floating-heart">💖</div>
+        <div class="floating-heart">💕</div>
+        <div class="floating-heart">💗</div>
+    </div>
+    
+    <div class="container">
+        <div class="decorations">✨</div>
+        <div class="hearts">💜</div>
+        <div class="sparkles">🌟</div>
+        
+        <h1>Результат вычисления</h1>
+        
+        <div class="calculation">
+            <span th:text="${num1}"></span>
+            <span th:switch="${operation}">
+                <span th:case="'add'">➕</span>
+                <span th:case="'subtract'">➖</span>
+                <span th:case="'multiply'">✖️</span>
+                <span th:case="'divide'">➗</span>
+            </span>
+            <span th:text="${num2}"></span>
+            =
+        </div>
+        
+        <div class="result">
+            <strong th:text="${result}"></strong>
+        </div>
+        
+        <div class="button-container">
+            <a href="/calculator" class="button calculator-btn">🧮 Новое вычисление</a>
+            <a href="/" class="button">🏠 На главную</a>
+        </div>
+    </div>
+</body>
+</html> 
