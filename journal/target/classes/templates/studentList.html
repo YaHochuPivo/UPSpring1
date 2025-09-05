@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Список студентов</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+    
+    .header h1 {
+      font-size: 2.5em;
+      font-weight: 300;
+      margin-bottom: 10px;
+    }
+    
+    .content {
+      padding: 30px;
+    }
+    
+    .section {
+      background: #f8f9fa;
+      border-radius: 15px;
+      padding: 25px;
+      margin: 20px 0;
+      border-left: 5px solid #667eea;
+    }
+    
+    .section h3 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .form-group { 
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      align-items: center;
+      margin: 15px 0;
+    }
+    
+    .form-group input, .form-group select, .form-group button { 
+      padding: 12px 15px;
+      border: 2px solid #e9ecef;
+      border-radius: 10px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+    
+    .form-group input:focus, .form-group select:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    
+    .btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+    }
+    
+    .btn-danger {
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+    }
+    
+    .btn-danger:hover {
+      box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+    }
+    
+    .btn-success {
+      background: linear-gradient(135deg, #51cf66 0%, #40c057 100%);
+    }
+    
+    .btn-success:hover {
+      box-shadow: 0 10px 20px rgba(81, 207, 102, 0.3);
+    }
+    
+    .btn-warning {
+      background: linear-gradient(135deg, #ffd43b 0%, #fab005 100%);
+    }
+    
+    .btn-warning:hover {
+      box-shadow: 0 10px 20px rgba(255, 212, 59, 0.3);
+    }
+    
+    .student-item { 
+      background: white;
+      border: 1px solid #e9ecef;
+      border-radius: 15px;
+      margin: 15px 0;
+      padding: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+    }
+    
+    .student-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    
+    .student-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
+    .student-name {
+      font-size: 1.2em;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+    
+    .student-status {
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.9em;
+      font-weight: 500;
+    }
+    
+    .status-active {
+      background: #d4edda;
+      color: #155724;
+    }
+    
+    .status-inactive {
+      background: #f8d7da;
+      color: #721c24;
+    }
+    
+    .student-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    
+    .student-actions input {
+      flex: 1;
+      min-width: 120px;
+    }
+    
+    .pagination { 
+      margin: 30px 0;
+      text-align: center;
+    }
+    
+    .pagination a { 
+      margin: 0 5px; 
+      padding: 10px 15px; 
+      text-decoration: none; 
+      border: 2px solid #e9ecef;
+      border-radius: 10px;
+      color: #667eea;
+      transition: all 0.3s ease;
+    }
+    
+    .pagination a:hover {
+      background: #667eea;
+      color: white;
+    }
+    
+    .pagination a.active { 
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-color: #667eea;
+    }
+    
+    .nav-link {
+      display: inline-block;
+      margin: 20px 0;
+      padding: 15px 30px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>👨‍🎓 Управление студентами</h1>
+    <p>Добавление, редактирование и управление студентами</p>
+  </div>
+  
+  <div class="content">
+    <!-- Форма добавления студента -->
+    <div class="section">
+      <h3>➕ Добавить нового студента</h3>
+      <form action="/students/add" method="post">
+        <div class="form-group">
+          <input type="text" name="name" placeholder="Имя" required>
+          <input type="text" name="lastName" placeholder="Фамилия" required>
+          <input type="text" name="firstName" placeholder="Отчество" required>
+          <input type="text" name="middleName" placeholder="Дополнительное имя" required>
+          <button type="submit" class="btn btn-success">Добавить студента</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Форма поиска -->
+    <div class="section">
+      <h3>🔍 Поиск студентов</h3>
+      <form action="/students/search" method="get">
+        <div class="form-group">
+          <input type="text" name="name" placeholder="Поиск по имени" th:value="${searchName}">
+          <input type="text" name="lastName" placeholder="Поиск по фамилии" th:value="${searchLastName}">
+          <input type="text" name="firstName" placeholder="Поиск по отчеству" th:value="${searchFirstName}">
+          <button type="submit" class="btn">Поиск</button>
+          <a href="/students" class="btn btn-warning">Сбросить</a>
+        </div>
+      </form>
+    </div>
+
+    <!-- Форма фильтрации -->
+    <div class="section">
+      <h3>🎯 Фильтрация студентов</h3>
+      <form action="/students/filter" method="get">
+        <div class="form-group">
+          <label>Статус:</label>
+          <select name="isActive">
+            <option value="">Все</option>
+            <option value="true" th:selected="${filterIsActive == true}">Активные</option>
+            <option value="false" th:selected="${filterIsActive == false}">Неактивные</option>
+          </select>
+          <label>Длина имени от:</label>
+          <input type="number" name="minNameLength" th:value="${filterMinNameLength}" placeholder="мин">
+          <label>до:</label>
+          <input type="number" name="maxNameLength" th:value="${filterMaxNameLength}" placeholder="макс">
+          <label>Длина фамилии от:</label>
+          <input type="number" name="minLastNameLength" th:value="${filterMinLastNameLength}" placeholder="мин">
+          <label>до:</label>
+          <input type="number" name="maxLastNameLength" th:value="${filterMaxLastNameLength}" placeholder="макс">
+          <button type="submit" class="btn">Фильтровать</button>
+          <a href="/students" class="btn btn-warning">Сбросить</a>
+        </div>
+      </form>
+    </div>
+
+    <!-- Множественное удаление -->
+    <div class="section" style="border-left-color: #ff6b6b;">
+      <h3>🗑️ Множественное удаление</h3>
+      <form action="/students/delete-multiple" method="post" onsubmit="return confirm('Вы уверены, что хотите удалить выбранных студентов?')">
+        <div class="form-group">
+          <input type="text" name="ids" placeholder="ID студентов через запятую (например: 1,2,3)" required style="flex: 1;">
+          <button type="submit" class="btn btn-danger">Физическое удаление</button>
+        </div>
+      </form>
+      <form action="/students/logical-delete-multiple" method="post" onsubmit="return confirm('Вы уверены, что хотите деактивировать выбранных студентов?')">
+        <div class="form-group">
+          <input type="text" name="ids" placeholder="ID студентов через запятую (например: 1,2,3)" required style="flex: 1;">
+          <button type="submit" class="btn btn-warning">Логическое удаление</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Список студентов -->
+    <div class="section">
+      <h3>📋 Список студентов</h3>
+      <div th:each="student : ${students}">
+        <div class="student-item">
+          <div class="student-info">
+            <div class="student-name" th:text="${student.name} + ' ' + ${student.lastName} + ' ' + ${student.firstName} + ' ' + ${student.middleName}"></div>
+            <div class="student-status" th:classappend="${student.active ? 'status-active' : 'status-inactive'}" 
+                 th:text="${student.active ? 'Активен' : 'Неактивен'}"></div>
+          </div>
+          
+          <div class="student-actions">
+            <form action="/students/update" method="post" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+              <input type="hidden" name="id" th:value="${student.id}"/>
+              <input type="text" name="name" th:value="${student.name}" required placeholder="Имя"/>
+              <input type="text" name="lastName" th:value="${student.lastName}" required placeholder="Фамилия"/>
+              <input type="text" name="firstName" th:value="${student.firstName}" required placeholder="Отчество"/>
+              <input type="text" name="middleName" th:value="${student.middleName}" required placeholder="Доп. имя"/>
+              <button type="submit" class="btn btn-success">Обновить</button>
+            </form>
+            
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+              <form action="/students/delete" method="post" style="display: inline;">
+                <input type="hidden" name="id" th:value="${student.id}"/>
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Вы уверены?')">Удалить</button>
+              </form>
+              
+              <form action="/students/logical-delete" method="post" style="display: inline;">
+                <input type="hidden" name="id" th:value="${student.id}"/>
+                <button type="submit" class="btn btn-warning" th:text="${student.active ? 'Деактивировать' : 'Активировать'}"></button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Пагинация -->
+    <div class="pagination" th:if="${totalPages > 1}">
+      <div style="margin-bottom: 15px; color: #666;">
+        Страница <span th:text="${currentPage + 1}"></span> из <span th:text="${totalPages}"></span> 
+        (Всего записей: <span th:text="${totalCount}"></span>)
+      </div>
+      <a th:if="${currentPage > 0}" th:href="@{/students(page=${currentPage - 1}, size=${pageSize})}">← Предыдущая</a>
+      <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+        <a th:if="${i != currentPage}" th:href="@{/students(page=${i}, size=${pageSize})}" th:text="${i + 1}"></a>
+        <span th:if="${i == currentPage}" class="active" th:text="${i + 1}"></span>
+      </span>
+      <a th:if="${currentPage < totalPages - 1}" th:href="@{/students(page=${currentPage + 1}, size=${pageSize})}">Следующая →</a>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px;">
+      <a href="/" class="nav-link">🏠 Главная страница</a>
+      <a href="/courses" class="nav-link">📚 Управление курсами</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Главная страница</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #333;
+    }
+    
+    .container {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      padding: 50px;
+      max-width: 800px;
+      width: 90%;
+      text-align: center;
+    }
+    
+    h1 { 
+      color: #2c3e50;
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      font-weight: 300;
+    }
+    
+    .nav-buttons {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      margin-top: 50px;
+      flex-wrap: wrap;
+    }
+    
+    .nav-button { 
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 40px; 
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white; 
+      text-decoration: none; 
+      border-radius: 15px; 
+      font-size: 18px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+      min-width: 200px;
+    }
+    
+    .nav-button:hover { 
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+    }
+    
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>🎓 Система управления учебным процессом</h1>
+
+  <div class="nav-buttons">
+    <a href="/students" class="nav-button">
+      <div>👨‍🎓</div>
+      <div>Управление студентами</div>
+    </a>
+    <a href="/courses" class="nav-button">
+      <div>📚</div>
+      <div>Управление курсами</div>
+    </a>
+  </div>
+</div>
+</body>
+</html>
